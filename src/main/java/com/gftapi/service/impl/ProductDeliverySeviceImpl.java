@@ -41,14 +41,8 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 		List<Estoque> produtos = this.estoqueService.findByProduct(product);
 		List<LojaDTO> lojas = new ArrayList<>();
 		if (CoreUtil.isListNotEmpty(produtos)) {
-			int count = 1;
-			//cria as lojas
-			for (int i = 0; i < qtdStore; i++) {
-				LojaDTO loja = new LojaDTO();
-				loja.setName("Lojista " + count);
-				lojas.add(loja);
-				count++;
-			}
+			
+			lojas.addAll(createStore(qtdStore));
 			
 			boolean inversao = false;
 			boolean inversaoAux = false;
@@ -104,6 +98,24 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 
 		}else {
 			throw new GftApiException("Não existe dados para esta pesquisa!");
+		}
+		return lojas;
+	}
+	
+	/**
+	 * Próposito: criar lojas 
+	 * @param qtdStore
+	 * @return
+	 */
+	@Override
+	public List<LojaDTO> createStore(Integer qtdStore) {
+		List<LojaDTO> lojas = new ArrayList<>();
+		int count = 1;
+		for (int i = 0; i < qtdStore; i++) {
+			LojaDTO loja = new LojaDTO();
+			loja.setName("Lojista " + count);
+			lojas.add(loja);
+			count++;
 		}
 		return lojas;
 	}

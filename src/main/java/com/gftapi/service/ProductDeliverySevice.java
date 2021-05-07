@@ -13,6 +13,8 @@ import com.gftapi.dto.LojaDTO;
 public interface ProductDeliverySevice {
 
 	public List<LojaDTO> getInventoryByStore(String product,Integer qtdStore); 
+	
+	public List<LojaDTO> createStore(Integer qtdStore);
 
 
 }

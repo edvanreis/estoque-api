@@ -37,13 +37,13 @@ public class EstoqueController {
 	 */
 	private static final long serialVersionUID = 3870605823789433847L;
 	
-	private EstoqueService service;
+	private final EstoqueService service;
 	
-	private ProductDeliverySevice productDeliverySevice;
+	private final ProductDeliverySevice productDeliverySevice;
 
 	
 	@PostMapping
-	protected ResponseEntity<ResponseMessageDTO> save(@RequestBody EstoqueDTO estoque){
+	public ResponseEntity<ResponseMessageDTO> save(@RequestBody EstoqueDTO estoque){
 		try {
 			this.service.save(estoque);
 			return ResponseEntity.ok().body(new ResponseMessageDTO(200, "Dados salvos com sucesso!"));
@@ -54,7 +54,7 @@ public class EstoqueController {
 	
 	@GetMapping("{product}/{qtdStory}/store")
 	public ResponseEntity<List<LojaDTO>> getInventoryByStore(@PathVariable(value = "product") String product,
-																@PathVariable(value = "qtdStory") Integer qtdStory) {
+															 @PathVariable(value = "qtdStory") Integer qtdStory) {
 		try {
 			return Optional.ofNullable(this.productDeliverySevice.getInventoryByStore(product,qtdStory))
 					.map(obj -> new ResponseEntity<>(obj, HttpStatus.OK))

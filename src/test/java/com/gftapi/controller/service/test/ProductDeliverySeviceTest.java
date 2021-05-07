@@ -1,30 +1,27 @@
 package com.gftapi.controller.service.test;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.gftapi.exception.GftApiException;
-import com.gftapi.service.EstoqueService;
+import com.gftapi.service.ProductDeliverySevice;
 
 @DisplayName("Tests for the EstoqueServiceTest ")
 @ExtendWith(SpringExtension.class)
-public class EstoqueServiceTest {
-	
+public class ProductDeliverySeviceTest {
+
 	@Mock
-	private EstoqueService estoqueService;
+	private ProductDeliverySevice productDeliverySevice;
+	
 	
 	@Test
-	void findByProduct() {
+	void getInventoryByStoreTest() {
 		try {
-			Mockito.when(this.estoqueService.findByProduct(Mockito.anyString())).thenReturn(new ArrayList<>());
+			this.productDeliverySevice.getInventoryByStore("EMMS", 2);
 		} catch (GftApiException e) {
 			Assertions.assertNotNull(e);
 		}

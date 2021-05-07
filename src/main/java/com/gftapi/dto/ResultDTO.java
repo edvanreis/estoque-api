@@ -20,7 +20,6 @@ public class ResultDTO implements Serializable {
 	private static final long serialVersionUID = -7917804577910109160L;
 
 
-	private Long id;
 	private String product;
 	private Long quantity;
 	private BigDecimal price;
@@ -31,22 +30,6 @@ public class ResultDTO implements Serializable {
 	}
 	
 	
-	/**
-	 * Recupera o atributo 'id'
-	 * 
-	 * @return
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * preenche o atributo 'id'
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	/**
 	 * Recupera o atributo 'product'
 	 * 
