@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.estoqueapi.dto.LojaDTO;
@@ -29,6 +31,8 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 
 	private EstoqueService estoqueService;
 	
+	private final MessageSource messageSource;
+	
 	private static final String LOJA_NAME = "Lojista ";
 
 	/**
@@ -48,7 +52,8 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 			lojas = setProduct(qtdStore, produtos, lojas);
 
 		}else {
-			throw new EstoqueApiException("Não existe dados para esta pesquisa!");
+			throw new EstoqueApiException(this.messageSource
+					.getMessage("mensagem.pesquisa.vazia", null,LocaleContextHolder.getLocale()));
 		}
 		return lojas;
 	}
