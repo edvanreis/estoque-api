@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.estoqueapi.service.EstoqueService;
 
 @SpringBootTest
-class GftapiApplicationTests {
+class EstoqueApiApplicationTests {
 
 	@Autowired
 	EstoqueService service;
