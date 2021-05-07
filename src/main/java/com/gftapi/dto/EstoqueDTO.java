@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.gftapi.base.BaseDTO;
+import lombok.Builder;
 
 /**
  * Data de Criação:05/05/2021
@@ -12,16 +12,12 @@ import com.gftapi.base.BaseDTO;
  * @author endr
  * @version 1.0
  */
-public class EstoqueDTO extends BaseDTO implements Serializable {
+@Builder
+public class EstoqueDTO implements Serializable {
 
-	/**
-	 * serialVersionUID
-	 */
 	private static final long serialVersionUID = -5847388722517720147L;
 
-	/********************************************************************************************
-	 * Atributos
-	 ********************************************************************************************/
+	private Long id;
 	private String product;
 	private Long quantity;
 	private String price;
@@ -36,9 +32,22 @@ public class EstoqueDTO extends BaseDTO implements Serializable {
 		super();
 	}
 	
-	/********************************************************************************************
-	 * Get Set
-	 ********************************************************************************************/
+	/**
+	 * Recupera o atributo 'id'
+	 * 
+	 * @return
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * preenche o atributo 'id'
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 
 	/**
 	 * Recupera o atributo 'product'

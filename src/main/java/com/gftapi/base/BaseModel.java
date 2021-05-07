@@ -44,9 +44,6 @@ public class BaseModel implements Serializable {
 	@JsonIgnore
 	protected LocalDateTime dataAtualizacao;
 	
-	/********************************************************************************************
-	 * Get Set
-	 ********************************************************************************************/
 
 	/**
 	 * Recupera o atributo 'id'

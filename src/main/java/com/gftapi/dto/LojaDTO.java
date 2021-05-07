@@ -1,6 +1,7 @@
 package com.gftapi.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -20,7 +21,10 @@ public class LojaDTO implements Serializable {
 	 * Atributos
 	 ********************************************************************************************/
 	private String name;
-	private List<EstoqueDTO>protucts;
+	private List<ResultDTO>protucts;
+	private Long qtde;
+	private String financeiro;
+	private String precoMedio;
 	
 	public LojaDTO() {
 		super();
@@ -50,15 +54,63 @@ public class LojaDTO implements Serializable {
 	 * 
 	 * @return
 	 */
-	public List<EstoqueDTO> getProtucts() {
+	public List<ResultDTO> getProtucts() {
 		return protucts;
 	}
 
 	/**
 	 * preenche o atributo 'protucts'
 	 */
-	public void setProtucts(List<EstoqueDTO> protucts) {
+	public void setProtucts(List<ResultDTO> protucts) {
 		this.protucts = protucts;
+	}
+
+	/**
+	 * Recupera o atributo 'qtde'
+	 * 
+	 * @return
+	 */
+	public Long getQtde() {
+		return qtde;
+	}
+
+	/**
+	 * preenche o atributo 'qtde'
+	 */
+	public void setQtde(Long qtde) {
+		this.qtde = qtde;
+	}
+	
+	/**
+	 * Recupera o atributo 'financeiro'
+	 * 
+	 * @return
+	 */
+	public String getFinanceiro() {
+		return financeiro;
+	}
+
+	/**
+	 * preenche o atributo 'financeiro'
+	 */
+	public void setFinanceiro(String financeiro) {
+		this.financeiro = financeiro;
+	}
+
+	/**
+	 * Recupera o atributo 'precoMedio'
+	 * 
+	 * @return
+	 */
+	public String getPrecoMedio() {
+		return precoMedio;
+	}
+
+	/**
+	 * preenche o atributo 'precoMedio'
+	 */
+	public void setPrecoMedio(String precoMedio) {
+		this.precoMedio = precoMedio;
 	}
 
 

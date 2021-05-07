@@ -8,6 +8,10 @@ import javax.persistence.Table;
 import com.gftapi.base.BaseModel;
 import com.sun.istack.NotNull;
 
+import lombok.Builder;
+
+
+
 /**
  * Data de Criação:05/05/2021
  * 
@@ -16,6 +20,7 @@ import com.sun.istack.NotNull;
  */
 @Entity
 @Table(name = "estoque")
+@Builder
 public class Estoque extends BaseModel {
 
 	/**
@@ -36,9 +41,6 @@ public class Estoque extends BaseModel {
 		super();
 	}
 
-	/********************************************************************************************
-	 * Get Set
-	 ********************************************************************************************/
 
 	/**
 	 * Recupera o atributo 'product'
