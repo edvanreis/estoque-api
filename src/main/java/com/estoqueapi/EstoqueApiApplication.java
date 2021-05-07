@@ -1,13 +1,12 @@
-package com.gftapi;
+package com.estoqueapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GftapiApplication {
+public class EstoqueApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GftapiApplication.class, args);
+		SpringApplication.run(EstoqueApiApplication.class, args);
 	}
-
 }

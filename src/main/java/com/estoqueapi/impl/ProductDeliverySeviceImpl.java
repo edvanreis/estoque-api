@@ -1,4 +1,4 @@
-package com.gftapi.service.impl;
+package com.estoqueapi.impl;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.gftapi.dto.LojaDTO;
-import com.gftapi.dto.ResultDTO;
-import com.gftapi.exception.GftApiException;
-import com.gftapi.model.Estoque;
-import com.gftapi.service.EstoqueService;
-import com.gftapi.service.ProductDeliverySevice;
-import com.gftapi.util.CoreUtil;
+import com.estoqueapi.dto.LojaDTO;
+import com.estoqueapi.dto.ResultDTO;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.model.Estoque;
+import com.estoqueapi.service.EstoqueService;
+import com.estoqueapi.service.ProductDeliverySevice;
+import com.estoqueapi.util.CoreUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -97,7 +97,7 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 			}
 
 		}else {
-			throw new GftApiException("Não existe dados para esta pesquisa!");
+			throw new EstoqueApiException("Não existe dados para esta pesquisa!");
 		}
 		return lojas;
 	}

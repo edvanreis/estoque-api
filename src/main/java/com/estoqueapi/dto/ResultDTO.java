@@ -1,4 +1,4 @@
-package com.gftapi.dto;
+package com.estoqueapi.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

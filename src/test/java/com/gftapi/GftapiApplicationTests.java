@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.gftapi.service.EstoqueService;
+import com.estoqueapi.service.EstoqueService;
 
 @SpringBootTest
 class GftapiApplicationTests {

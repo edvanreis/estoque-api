@@ -1,4 +1,4 @@
-package com.gftapi.controller;
+package com.estoqueapi.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gftapi.dto.EstoqueDTO;
-import com.gftapi.dto.LojaDTO;
-import com.gftapi.dto.ResponseMessageDTO;
-import com.gftapi.exception.GftApiException;
-import com.gftapi.service.EstoqueService;
-import com.gftapi.service.ProductDeliverySevice;
+import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.dto.LojaDTO;
+import com.estoqueapi.dto.ResponseMessageDTO;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.service.EstoqueService;
+import com.estoqueapi.service.ProductDeliverySevice;
 
 import lombok.AllArgsConstructor;
 
@@ -47,8 +47,8 @@ public class EstoqueController {
 		try {
 			this.service.save(estoque);
 			return ResponseEntity.ok().body(new ResponseMessageDTO(200, "Dados salvos com sucesso!"));
-		} catch (GftApiException ex) {
-			throw new GftApiException(ex.getMessage());
+		} catch (EstoqueApiException ex) {
+			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
 	
@@ -58,9 +58,9 @@ public class EstoqueController {
 		try {
 			return Optional.ofNullable(this.productDeliverySevice.getInventoryByStore(product,qtdStory))
 					.map(obj -> new ResponseEntity<>(obj, HttpStatus.OK))
-					.orElseThrow(() -> new GftApiException("Erro ao obter dados!"));
-		} catch (GftApiException ex) {
-			throw new GftApiException(ex.getMessage());
+					.orElseThrow(() -> new EstoqueApiException("Erro ao obter dados!"));
+		} catch (EstoqueApiException ex) {
+			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
 

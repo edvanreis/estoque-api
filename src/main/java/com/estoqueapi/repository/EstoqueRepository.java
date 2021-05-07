@@ -1,4 +1,4 @@
-package com.gftapi.repository;
+package com.estoqueapi.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.gftapi.model.Estoque;
+import com.estoqueapi.model.Estoque;
 
 
 /**

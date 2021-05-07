@@ -1,11 +1,11 @@
-package com.gftapi.service;
+package com.estoqueapi.service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import com.gftapi.dto.EstoqueDTO;
-import com.gftapi.model.Estoque;
+import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.model.Estoque;
 
 /**
  * Data de Criação:05/05/2021

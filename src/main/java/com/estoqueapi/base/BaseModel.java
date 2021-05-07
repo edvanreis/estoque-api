@@ -1,4 +1,4 @@
-package com.gftapi.base;
+package com.estoqueapi.base;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.gftapi.dto;
+package com.estoqueapi.dto;
 
 /**
  * Data de Criação:05/05/2021

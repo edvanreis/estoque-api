@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.gftapi.exception.GftApiException;
-import com.gftapi.service.EstoqueService;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.service.EstoqueService;
 
 @DisplayName("Tests for the EstoqueServiceTest ")
 @ExtendWith(SpringExtension.class)
@@ -25,7 +25,7 @@ public class EstoqueServiceTest {
 	void findByProduct() {
 		try {
 			Mockito.when(this.estoqueService.findByProduct(Mockito.anyString())).thenReturn(new ArrayList<>());
-		} catch (GftApiException e) {
+		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}
 		

@@ -1,4 +1,4 @@
-package com.gftapi.util;
+package com.estoqueapi.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

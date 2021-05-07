@@ -11,12 +11,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.gftapi.controller.EstoqueController;
-import com.gftapi.dto.EstoqueDTO;
-import com.gftapi.dto.LojaDTO;
-import com.gftapi.exception.GftApiException;
-import com.gftapi.service.EstoqueService;
-import com.gftapi.service.ProductDeliverySevice;
+import com.estoqueapi.controller.EstoqueController;
+import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.dto.LojaDTO;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.service.EstoqueService;
+import com.estoqueapi.service.ProductDeliverySevice;
 
 @DisplayName("Tests for the EstoqueServiceTest ")
 @ExtendWith(SpringExtension.class)
@@ -36,7 +36,7 @@ public class EstoqueControllerTest {
 		try {
 			Assertions.assertEquals(0,this.estoqueController.getInventoryByStore(Mockito.eq("EMMS"), Mockito.eq(2)).getBody().size());
 			//this.estoqueController.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
-		} catch (GftApiException e) {  
+		} catch (EstoqueApiException e) {  
 			Assertions.assertNotNull(e);
 		}
 	}
@@ -52,7 +52,7 @@ public class EstoqueControllerTest {
 			dto.setIndustry("Oil & Gas Production");
 			dto.setOrigin("CA");
 			Assertions.assertEquals("Dados salvos com sucesso!",this.estoqueController.save(dto).getBody().getValue()); 
-		} catch (GftApiException e) {
+		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}
 	}

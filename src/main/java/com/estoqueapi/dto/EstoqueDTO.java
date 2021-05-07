@@ -1,16 +1,10 @@
-package com.gftapi.model;
+package com.estoqueapi.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.gftapi.base.BaseModel;
-import com.sun.istack.NotNull;
+import java.util.List;
 
 import lombok.Builder;
-
-
 
 /**
  * Data de Criação:05/05/2021
@@ -18,29 +12,42 @@ import lombok.Builder;
  * @author endr
  * @version 1.0
  */
-@Entity
-@Table(name = "estoque")
 @Builder
-public class Estoque extends BaseModel {
+public class EstoqueDTO implements Serializable {
 
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -399004998935769088L;
+	private static final long serialVersionUID = -5847388722517720147L;
 
-	@NotNull
+	private Long id;
 	private String product;
 	private Long quantity;
-	private BigDecimal price;
+	private String price;
 	private String type;
 	private String industry;
 	private String origin;
+	private List<EstoqueDTO>data;
 	private String file;
-
-	public Estoque() {
+	private BigDecimal priceDecimal;
+	
+	public EstoqueDTO() {
 		super();
 	}
+	
+	/**
+	 * Recupera o atributo 'id'
+	 * 
+	 * @return
+	 */
+	public Long getId() {
+		return id;
+	}
 
+	/**
+	 * preenche o atributo 'id'
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 
 	/**
 	 * Recupera o atributo 'product'
@@ -79,14 +86,14 @@ public class Estoque extends BaseModel {
 	 * 
 	 * @return
 	 */
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
 	/**
 	 * preenche o atributo 'price'
 	 */
-	public void setPrice(BigDecimal price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
@@ -140,6 +147,23 @@ public class Estoque extends BaseModel {
 	}
 
 	/**
+	 * Recupera o atributo 'data'
+	 * 
+	 * @return
+	 */
+	public List<EstoqueDTO> getData() {
+		return data;
+	}
+
+	/**
+	 * preenche o atributo 'data'
+	 */
+	public void setData(List<EstoqueDTO> data) {
+		this.data = data;
+	}
+	
+
+	/**
 	 * Recupera o atributo 'file'
 	 * 
 	 * @return
@@ -154,5 +178,22 @@ public class Estoque extends BaseModel {
 	public void setFile(String file) {
 		this.file = file;
 	}
+
+	/**
+	 * preenche o atributo 'priceDecimal'
+	 */
+	public BigDecimal getPriceDecimal() {
+		return priceDecimal;
+	}
+
+	/**
+	 * Recupera o atributo 'priceDecimal'
+	 * 
+	 * @return
+	 */
+	public void setPriceDecimal(BigDecimal priceDecimal) {
+		this.priceDecimal = priceDecimal;
+	}
+
 
 }

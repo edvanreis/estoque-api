@@ -44,7 +44,7 @@
   <li>1 - Instalar Eclipse compatível com java 8</li>
   <li>2 - fazer o download do repositório</li>
   <li>3 - importar como projeto MAVEN. APÓS, RODAR: MAVEN -&gt; UPDATE  / MAVEN -&gt; CLEAN / MAVEN -&gt; INSTALL</li>
-  <li>4 - NÃO É NECESSÁRIO TER SERVIDOR (CONTEINER WEB - TOMCAT EMBUTIDO). ABRA A CLASSE: <em>GftapiApplication.java.</em> e rode a partir dela.</li>
+  <li>4 - NÃO É NECESSÁRIO TER SERVIDOR (CONTEINER WEB - TOMCAT EMBUTIDO). ABRA A CLASSE: <em>EstoqueApiApplication.java.</em> e rode a partir dela.</li>
   <li>5 - Dentro do projeto tem uma pasta chamada: POSTMAN_ENDPOINTS. Nela contem todas as requisições necessárias para acessar o projeto.</li>
   <li>6 - Importe no postman o arquivo <em>conta-bancaria.postman_collection.json</em> que se encontra dentro da pasta  POSTMAN_ENDPOINTS. (O basic ja está configurado).</li>
 </ul>

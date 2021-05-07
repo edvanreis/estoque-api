@@ -1,4 +1,4 @@
-package com.gftapi.service.impl;
+package com.estoqueapi.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,11 +9,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.gftapi.dto.EstoqueDTO;
-import com.gftapi.model.Estoque;
-import com.gftapi.repository.EstoqueRepository;
-import com.gftapi.service.EstoqueService;
-import com.gftapi.util.CoreUtil;
+import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.model.Estoque;
+import com.estoqueapi.repository.EstoqueRepository;
+import com.estoqueapi.service.EstoqueService;
+import com.estoqueapi.util.CoreUtil;
 
 import lombok.AllArgsConstructor;
 

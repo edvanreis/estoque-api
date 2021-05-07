@@ -7,8 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.gftapi.exception.GftApiException;
-import com.gftapi.service.ProductDeliverySevice;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.service.ProductDeliverySevice;
 
 @DisplayName("Tests for the EstoqueServiceTest ")
 @ExtendWith(SpringExtension.class)
@@ -22,7 +22,7 @@ public class ProductDeliverySeviceTest {
 	void getInventoryByStoreTest() {
 		try {
 			this.productDeliverySevice.getInventoryByStore("EMMS", 2);
-		} catch (GftApiException e) {
+		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}
 		
