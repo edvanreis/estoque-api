@@ -3,14 +3,19 @@ package com.estoqueapi.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estoqueapi.dto.EstoqueDTO;
 import com.estoqueapi.dto.LojaDTO;
@@ -27,7 +32,7 @@ import lombok.AllArgsConstructor;
  * @author endr
  * @version 1.0
  */
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/estoque")
 public class EstoqueController {
@@ -37,13 +42,15 @@ public class EstoqueController {
 	 */
 	private static final long serialVersionUID = 3870605823789433847L;
 	
-	private final EstoqueService service;
+	@Autowired
+	private  EstoqueService service;
 	
-	private final ProductDeliverySevice productDeliverySevice;
+	@Autowired
+	private ProductDeliverySevice productDeliverySevice;
 
 	
 	@PostMapping
-	public ResponseEntity<ResponseMessageDTO> save(@RequestBody EstoqueDTO estoque){
+	public ResponseEntity<ResponseMessageDTO> save(@Validated @RequestBody EstoqueDTO estoque){
 		try {
 			this.service.save(estoque);
 			return ResponseEntity.ok().body(new ResponseMessageDTO(200, "Dados salvos com sucesso!"));
@@ -52,14 +59,11 @@ public class EstoqueController {
 		}
 	}
 	
-	@GetMapping("{product}/{qtdStory}/store")
-	public ResponseEntity<List<LojaDTO>> getInventoryByStore(@PathVariable(value = "product") String product,
-															 @PathVariable(value = "qtdStory") Integer qtdStory) {
+	@GetMapping("{product}/{qtdStore}/store")
+	public ResponseEntity<List<LojaDTO>> getInventoryByStore(@PathVariable String product,@PathVariable  Integer qtdStore) {
 		try {
-			return Optional.ofNullable(this.productDeliverySevice.getInventoryByStore(product,qtdStory))
-					.map(obj -> new ResponseEntity<>(obj, HttpStatus.OK))
-					.orElseThrow(() -> new EstoqueApiException("Erro ao obter dados!"));
-		} catch (EstoqueApiException ex) {
+			return ResponseEntity.ok().body(this.productDeliverySevice.getInventoryByStore(product,qtdStore));
+		} catch (Exception ex) {
 			throw new EstoqueApiException(ex.getMessage());
 		}
 	}

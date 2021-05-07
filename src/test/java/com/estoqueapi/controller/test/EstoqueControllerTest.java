@@ -45,12 +45,12 @@ public class EstoqueControllerTest {
 	void testSave() {
 		try {
 			EstoqueDTO dto = new EstoqueDTO();
-			dto.setProduct("LONE");
-			dto.setQuantity(47l);
-			dto.setPrice("$5.83");
-			dto.setType("2XL");
-			dto.setIndustry("Oil & Gas Production");
-			dto.setOrigin("CA");
+				dto.setProduct("LONE");
+				dto.setQuantity(47l);
+				dto.setPrice("$5.83");
+				dto.setType("2XL");
+				dto.setIndustry("Oil & Gas Production");
+				dto.setOrigin("CA");
 			Assertions.assertEquals("Dados salvos com sucesso!",this.estoqueController.save(dto).getBody().getValue()); 
 		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.estoqueapi.exception.EstoqueApiException;
@@ -21,7 +22,7 @@ public class ProductDeliverySeviceTest {
 	@Test
 	void getInventoryByStoreTest() {
 		try {
-			this.productDeliverySevice.getInventoryByStore("EMMS", 2);
+			this.productDeliverySevice.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
 		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}

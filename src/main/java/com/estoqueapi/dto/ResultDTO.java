@@ -22,8 +22,8 @@ public class ResultDTO implements Serializable {
 
 	private String product;
 	private Long quantity;
-	private BigDecimal price;
-	private Double volume;
+	private String price;
+	private String volume;
 	
 	public ResultDTO() {
 		super();
@@ -67,14 +67,14 @@ public class ResultDTO implements Serializable {
 	 * 
 	 * @return
 	 */
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
 	/**
 	 * preenche o atributo 'price'
 	 */
-	public void setPrice(BigDecimal price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
@@ -83,14 +83,14 @@ public class ResultDTO implements Serializable {
 	 * 
 	 * @return
 	 */
-	public Double getVolume() {
+	public String getVolume() {
 		return volume;
 	}
 
 	/**
 	 * preenche o atributo 'volume'
 	 */
-	public void setVolume(Double volume) {
+	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
