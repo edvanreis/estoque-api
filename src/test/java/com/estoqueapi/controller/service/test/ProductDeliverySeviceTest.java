@@ -1,4 +1,4 @@
-package com.gftapi.controller.service.test;
+package com.estoqueapi.controller.service.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

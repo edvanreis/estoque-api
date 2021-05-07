@@ -1,4 +1,4 @@
-package com.gftapi.controller.service.test;
+package com.estoqueapi.controller.service.test;
 
 import java.util.ArrayList;
 

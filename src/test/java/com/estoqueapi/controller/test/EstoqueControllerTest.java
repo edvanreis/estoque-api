@@ -1,4 +1,4 @@
-package com.gftapi.controller.test;
+package com.estoqueapi.controller.test;
 
 import java.util.List;
 
