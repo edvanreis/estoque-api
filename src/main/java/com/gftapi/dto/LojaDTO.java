@@ -1,7 +1,6 @@
 package com.gftapi.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,9 +16,6 @@ public class LojaDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 5307865535654315172L;
 	
-	/********************************************************************************************
-	 * Atributos
-	 ********************************************************************************************/
 	private String name;
 	private List<ResultDTO>protucts;
 	private Long qtde;
@@ -30,9 +26,6 @@ public class LojaDTO implements Serializable {
 		super();
 	}
 	
-	/********************************************************************************************
-	 * Get Set
-	 ********************************************************************************************/
 
 	/**
 	 * Recupera o atributo 'name'
