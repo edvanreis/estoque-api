@@ -11,7 +11,6 @@ import lombok.Builder;
  * @author endr
  * @version 1.0
  */
-@Builder
 public class ResultDTO implements Serializable {
 
 	/**

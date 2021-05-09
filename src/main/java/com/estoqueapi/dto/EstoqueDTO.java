@@ -28,10 +28,6 @@ public class EstoqueDTO implements Serializable {
 	private String file;
 	private BigDecimal priceDecimal;
 	
-	public EstoqueDTO() {
-		super();
-	}
-	
 	/**
 	 * Recupera o atributo 'id'
 	 * 

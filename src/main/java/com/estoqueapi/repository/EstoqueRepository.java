@@ -19,4 +19,6 @@ public interface EstoqueRepository extends CrudRepository<Estoque,Long>{
 	Optional<Estoque> findByProductAndPriceAndQuantity(String product,BigDecimal price,Long quantity);
 
 	List<Estoque> findByProduct(String product);
+	
+	
 }

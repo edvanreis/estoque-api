@@ -20,7 +20,6 @@ import lombok.Builder;
  */
 @Entity
 @Table(name = "estoque")
-@Builder
 public class Estoque extends BaseModel {
 
 	/**
@@ -37,10 +36,9 @@ public class Estoque extends BaseModel {
 	private String origin;
 	private String file;
 
-	public Estoque() {
-		super();
-	}
 
+	
+	public Estoque() {}
 
 	/**
 	 * Recupera o atributo 'product'

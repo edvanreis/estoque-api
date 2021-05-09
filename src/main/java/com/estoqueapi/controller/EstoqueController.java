@@ -68,5 +68,14 @@ public class EstoqueController {
 			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
+	
+	@GetMapping
+	public ResponseEntity<List<EstoqueDTO>> findAll() {
+		try {
+			return ResponseEntity.ok().body(this.service.findAll());
+		} catch (Exception ex) {
+			throw new EstoqueApiException(ex.getMessage());
+		}
+	}
 
 }

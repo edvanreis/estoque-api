@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.context.MessageSource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.estoqueapi.controller.EstoqueController;
@@ -31,11 +32,13 @@ public class EstoqueControllerTest {
 	@Mock
 	private ProductDeliverySevice productDeliverySevice;  
 	
+	@Mock
+	private MessageSource messageSource;
+	
 	@Test
 	void testInventoryByStore() {
 		try {
-			Assertions.assertEquals(0,this.estoqueController.getInventoryByStore(Mockito.eq("EMMS"), Mockito.eq(2)).getBody().size());
-			//this.estoqueController.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
+			this.estoqueController.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
 		} catch (EstoqueApiException e) {  
 			Assertions.assertNotNull(e);
 		}
@@ -44,13 +47,15 @@ public class EstoqueControllerTest {
 	@Test
 	void testSave() {
 		try {
-			EstoqueDTO dto = new EstoqueDTO();
-				dto.setProduct("LONE");
-				dto.setQuantity(47l);
-				dto.setPrice("$5.83");
-				dto.setType("2XL");
-				dto.setIndustry("Oil & Gas Production");
-				dto.setOrigin("CA");
+			
+			EstoqueDTO dto = EstoqueDTO.builder()
+									   .product("LONE")
+									   .quantity(47l)
+									   .price("$5.83")
+									   .type("2XL")
+									   .industry("Oil & Gas Production")
+									   .origin("CA")
+									   .build();
 			Assertions.assertEquals("Dados salvos com sucesso!",this.estoqueController.save(dto).getBody().getValue()); 
 		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);

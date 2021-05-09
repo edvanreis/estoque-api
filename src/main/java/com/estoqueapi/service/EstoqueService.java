@@ -21,6 +21,8 @@ public interface EstoqueService {
 	
 	public void remove(Long id);
 	
+	public List<EstoqueDTO> findAll();
+	
 	public Estoque dtoToModel(EstoqueDTO dto);
 	
 	public Estoque dtoToModelForUpdate(EstoqueDTO dto,Estoque estoque);

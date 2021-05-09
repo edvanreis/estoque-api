@@ -1,19 +1,24 @@
-package com.estoqueapi.impl;
+package com.estoqueapi.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.exception.EstoqueApiException;
 import com.estoqueapi.model.Estoque;
 import com.estoqueapi.repository.EstoqueRepository;
 import com.estoqueapi.service.EstoqueService;
 import com.estoqueapi.util.CoreUtil;
+import com.google.common.collect.Lists;
 
 import lombok.AllArgsConstructor;
 
@@ -27,7 +32,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EstoqueServiceImpl implements EstoqueService {
 
-	private EstoqueRepository repository;
+	private final EstoqueRepository repository;
+	
+	private final MessageSource messageSource;
 
 	/***
 	 * Próposito:receber e salvar o estoque
@@ -69,16 +76,17 @@ public class EstoqueServiceImpl implements EstoqueService {
 	 */
 	@Override
 	public Estoque dtoToModel(EstoqueDTO dto) {
-				
-		return   Estoque.builder()
-						.product(dto.getProduct())
-						.quantity(dto.getQuantity())
-						.type(dto.getType())
-						.industry(dto.getIndustry())
-						.origin(dto.getOrigin())
-						.file(dto.getFile())
-						.price(CoreUtil.princeToBigDecimal(dto.getPrice()))
-						.build();
+
+		Estoque estoque = new Estoque();
+		estoque.setProduct(dto.getProduct());
+		estoque.setQuantity(dto.getQuantity());
+		estoque.setType(dto.getType());
+		estoque.setIndustry(dto.getIndustry());
+		estoque.setOrigin(dto.getOrigin());
+		estoque.setFile(dto.getFile());
+		estoque.setPrice(CoreUtil.princeToBigDecimal(dto.getPrice()));
+		
+		return estoque;
 	}
 	
 	/**
@@ -141,7 +149,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 			dto.setFile(file);
 			Estoque estoque = dtoToModel(dto);
 			estoque.setDataCriacao(LocalDateTime.now());
-			this.repository.save(dtoToModel(dto));
+			this.repository.save(estoque);
 		}
 	}
 
@@ -154,6 +162,18 @@ public class EstoqueServiceImpl implements EstoqueService {
 	@Override
 	public List<Estoque> findByProduct(String product) {
 		return this.repository.findByProduct(product);
+	}
+	
+	@Override
+	public List<EstoqueDTO> findAll() {
+		List<Estoque> obj = Lists.newArrayList(this.repository.findAll());
+		if (obj != null) {
+			return obj.stream().map(this::modelToDto).collect(Collectors.toList());
+		} else {
+			throw new EstoqueApiException(
+					this.messageSource.getMessage("mensagem.pesquisa.vazia", null, LocaleContextHolder.getLocale()));
+		}
+
 	}
 
 

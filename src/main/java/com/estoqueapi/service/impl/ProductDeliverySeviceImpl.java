@@ -1,4 +1,4 @@
-package com.estoqueapi.impl;
+package com.estoqueapi.service.impl;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
