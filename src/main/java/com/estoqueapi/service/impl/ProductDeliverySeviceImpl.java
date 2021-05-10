@@ -44,7 +44,7 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 	 */
 	@Override
 	public List<LojaDTO> getInventoryByStore(String product,Integer qtdStore) {
-		List<Estoque> produtos = this.estoqueService.findByProduct(product);
+		List<Estoque> produtos = this.estoqueService.findByProduct(product.toUpperCase());
 		List<LojaDTO> lojas = new ArrayList<>();
 		if (CoreUtil.isListNotEmpty(produtos)) {
 			

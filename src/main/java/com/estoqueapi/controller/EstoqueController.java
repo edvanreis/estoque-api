@@ -7,6 +7,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,8 @@ import lombok.AllArgsConstructor;
  * @version 1.0
  */
 
-@AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
+@AllArgsConstructor 
 @RestController
 @RequestMapping("/estoque")
 public class EstoqueController {
