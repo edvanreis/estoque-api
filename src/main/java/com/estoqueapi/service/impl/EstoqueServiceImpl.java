@@ -130,6 +130,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 							.file(estoque.getFile())
 							.price(CoreUtil.princeToString(estoque.getPrice()))
 							.file(estoque.getFile())
+							.priceDecimal(estoque.getPrice())
 							.build();
 	}
 
