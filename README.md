@@ -52,3 +52,7 @@
   <li>5 - Dentro do projeto tem uma pasta chamada: POSTMAN_ENDPOINTS. Nela consta a massa de dados para rodar no projeto.</li>
   <li>6 - Importe no postman o arquivos <em>data_1.json,data_2.json,data_3.json,data_4.json</em> um cada vez que se encontra dentro da pasta  POSTMAN_ENDPOINTS</li>
 </ul>
+<h2>Exemplo do desafio:</h2>
+<ul>
+    <li>https://estoque-loja.herokuapp.com/calculo-estoque</h1>
+</ul>  
