@@ -18,6 +18,8 @@ public interface ProductDeliverySevice {
 	public List<LojaDTO> createStore(Integer qtdStore);
 	
 	public List<LojaDTO>  setProduct(Integer qtdStore, List<Estoque> produtos, List<LojaDTO> lojas);
+	
+	public List<LojaDTO> calcOneStore(List<Estoque> produtos, List<LojaDTO> lojas);
 
 
 }

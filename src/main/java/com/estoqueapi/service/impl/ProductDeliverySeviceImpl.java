@@ -91,52 +91,97 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 		boolean inversaoAux = false;
 		
 		List<Long>quantidades = new ArrayList<>();
-		for (LojaDTO loja : lojas) {
+		
+		if(lojas.size() == 1 ) {
 			
-			Long qtd = 0l;
-			Double qtdVolume = 0d; 
-			Double mediaPreco = 0d; 
-			loja.setProtucts(new ArrayList<>());
+			lojas = calcOneStore(produtos, lojas);
 			
-			for (Estoque produto : produtos) {
+		}else {
+			for (LojaDTO loja : lojas) {
 				
-				ResultDTO result = new ResultDTO();
+				Long qtd = 0l;
+				Double qtdVolume = 0d; 
+				Double mediaPreco = 0d; 
+				loja.setProtucts(new ArrayList<>());
 				
-				if(produto.getQuantity()%2==0) {
-					result.setQuantity(produto.getQuantity()/lojas.size());
-				}else {
-					if(!quantidades.contains(produto.getQuantity())) {
-						quantidades.add(produto.getQuantity());
-						if(inversao) {
-							result.setQuantity((produto.getQuantity()/lojas.size())+1);
-						}else {
-							result.setQuantity(produto.getQuantity()/lojas.size());
-							inversao = true;
-						}
+				for (Estoque produto : produtos) {
+					
+					ResultDTO result = new ResultDTO();
+					
+					if(produto.getQuantity()%2==0) {
+						result.setQuantity(produto.getQuantity()/lojas.size());
 					}else {
-						if(!inversaoAux) {
-							result.setQuantity((produto.getQuantity()/lojas.size())+1);
-							inversaoAux = true;
+						if(!quantidades.contains(produto.getQuantity())) {
+							quantidades.add(produto.getQuantity());
+							if(inversao) {
+								result.setQuantity((produto.getQuantity()/lojas.size())+1);
+							}else {
+								result.setQuantity(produto.getQuantity()/lojas.size());
+								inversao = true;
+							}
 						}else {
-							result.setQuantity(produto.getQuantity()/lojas.size());
+							if(!inversaoAux) {
+								result.setQuantity((produto.getQuantity()/lojas.size())+1);
+								inversaoAux = true;
+							}else {
+								result.setQuantity(produto.getQuantity()/lojas.size());
+							}
 						}
+						quantidades.add(produto.getQuantity());
 					}
-					quantidades.add(produto.getQuantity());
+					
+					result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
+					result.setProduct(produto.getProduct());
+					result.setVolume(new DecimalFormat("#,##0.00")
+							        .format(produto.getPrice().multiply(new BigDecimal(result.getQuantity()))
+									.doubleValue()));
+					loja.getProtucts().add(result);
+				    
+					qtd=qtd+result.getQuantity();
+					qtdVolume=qtdVolume+Double.valueOf(result.getVolume().replace(",",".")); 
+					mediaPreco = qtdVolume/qtd;
+					
+					loja.setQtde(qtd);
+					loja.setFinanceiro(new DecimalFormat("#,##0.00").format(qtdVolume)); 
+					loja.setPrecoMedio(new DecimalFormat("#,##0.00").format(mediaPreco));
 				}
-				
+			}
+		}
+		
+		return lojas;
+	}
+
+	/***
+	 * Adiciona produtos apenas em uma unica loja
+	 * @param produtos
+	 * @param lojas
+	 * @return
+	 */
+	@Override
+	public List<LojaDTO> calcOneStore(List<Estoque> produtos, List<LojaDTO> lojas) {
+		for (LojaDTO loja : lojas) {
+
+			Long qtd = 0l;
+			Double qtdVolume = 0d;
+			Double mediaPreco = 0d;
+			loja.setProtucts(new ArrayList<>());
+
+			for (Estoque produto : produtos) {
+
+				ResultDTO result = new ResultDTO();
+				result.setQuantity(produto.getQuantity());
 				result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
 				result.setProduct(produto.getProduct());
 				result.setVolume(new DecimalFormat("#,##0.00")
-						        .format(produto.getPrice().multiply(new BigDecimal(result.getQuantity()))
-								.doubleValue()));
+						.format(produto.getPrice().multiply(new BigDecimal(result.getQuantity())).doubleValue()));
 				loja.getProtucts().add(result);
-			    
-				qtd=qtd+result.getQuantity();
-				qtdVolume=qtdVolume+Double.valueOf(result.getVolume().replace(",",".")); 
-				mediaPreco = qtdVolume/qtd;
-				
+
+				qtd = qtd + result.getQuantity();
+				qtdVolume = qtdVolume + Double.valueOf(result.getVolume().replace(",", "."));
+				mediaPreco = qtdVolume / qtd;
+
 				loja.setQtde(qtd);
-				loja.setFinanceiro(new DecimalFormat("#,##0.00").format(qtdVolume)); 
+				loja.setFinanceiro(new DecimalFormat("#,##0.00").format(qtdVolume));
 				loja.setPrecoMedio(new DecimalFormat("#,##0.00").format(mediaPreco));
 			}
 		}
