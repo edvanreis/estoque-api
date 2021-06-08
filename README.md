@@ -29,6 +29,9 @@
   <li>
       <p>Lombok.</p>
   </li>
+   <li>
+      <p>Swagger 3.0</p>
+  </li>
 </ul>
 
 
