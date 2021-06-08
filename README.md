@@ -57,7 +57,7 @@
 </ul>
 <h2>Swagger Api Documentation:</h2>
 <ul>
-    <li>http://localhost:8080/swagger-ui/index.html</h1>
+    <li>https://estoque-loja-api.herokuapp.com/swagger-ui/index.html#/estoque-controller</h1>
 </ul>
 <h2>Exemplo do desafio:</h2>
 <ul>
