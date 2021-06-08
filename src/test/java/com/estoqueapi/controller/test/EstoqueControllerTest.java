@@ -1,66 +1,94 @@
 package com.estoqueapi.controller.test;
 
-import java.util.List;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.estoqueapi.controller.EstoqueController;
-import com.estoqueapi.dto.EstoqueDTO;
-import com.estoqueapi.dto.LojaDTO;
-import com.estoqueapi.exception.EstoqueApiException;
 import com.estoqueapi.service.EstoqueService;
 import com.estoqueapi.service.ProductDeliverySevice;
 
-@DisplayName("Tests for the EstoqueServiceTest ")
-@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = EstoqueController.class)
+@ActiveProfiles("test")
 public class EstoqueControllerTest {
 
-	@InjectMocks
-	private EstoqueController estoqueController;
-	
-	@Mock
+	@MockBean
 	private EstoqueService estoqueService;
 	
-	@Mock
+	@MockBean
 	private ProductDeliverySevice productDeliverySevice;  
 	
-	@Mock
+	@MockBean
 	private MessageSource messageSource;
 	
-	@Test
-	void testInventoryByStore() {
-		try {
-			this.estoqueController.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
-		} catch (EstoqueApiException e) {  
-			Assertions.assertNotNull(e);
-		}
-	}
+	@Autowired
+	private MockMvc mvc; 
+	
 	
 	@Test
-	void testSave() {
+	void getInventoryByStore() {
 		try {
 			
-			EstoqueDTO dto = EstoqueDTO.builder()
-									   .product("LONE")
-									   .quantity(47l)
-									   .price("$5.83")
-									   .type("2XL")
-									   .industry("Oil & Gas Production")
-									   .origin("CA")
-									   .build();
-			Assertions.assertEquals("Dados salvos com sucesso!",this.estoqueController.save(dto).getBody().getValue()); 
-		} catch (EstoqueApiException e) {
+			when(productDeliverySevice.getInventoryByStore(Mockito.eq("EMS"), Mockito.eq(2))).thenReturn(new ArrayList<>());
+			
+			mvc.perform(MockMvcRequestBuilders.get("/estoque/store/{product}/{qtdStore}",Mockito.eq("EMS"), Mockito.eq(2))
+												  .contentType(MediaType.APPLICATION_JSON)
+												  .accept(MediaType.APPLICATION_JSON))
+												  .andDo(print())
+												  .andExpect(status().isOk()).andReturn();
+		  reset(this.productDeliverySevice);
+												
+		} catch (Exception e) {
 			Assertions.assertNotNull(e);
 		}
+									      
 	}
+	
+//	@Test
+//	void testInventoryByStore() {
+//		try {
+//			this.estoqueController.getInventoryByStore(Mockito.anyString(), Mockito.anyInt());
+//		} catch (EstoqueApiException e) {  
+//			Assertions.assertNotNull(e);
+//		}
+//	}
+//	
+//	@Test
+//	void testSave() {
+//		try {
+//			
+//			EstoqueDTO dto = EstoqueDTO.builder()
+//									   .product("LONE")
+//									   .quantity(47l)
+//									   .price("$5.83")
+//									   .type("2XL")
+//									   .industry("Oil & Gas Production")
+//									   .origin("CA")
+//									   .build();
+//			Assertions.assertEquals("Dados salvos com sucesso!",this.estoqueController.save(dto).getBody().getValue()); 
+//		} catch (EstoqueApiException e) {
+//			Assertions.assertNotNull(e);
+//		}
+//	}
 	
 	
 }

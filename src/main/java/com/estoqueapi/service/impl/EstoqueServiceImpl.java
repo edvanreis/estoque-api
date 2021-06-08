@@ -162,7 +162,12 @@ public class EstoqueServiceImpl implements EstoqueService {
 
 	@Override
 	public List<Estoque> findByProduct(String product) {
-		return this.repository.findByProduct(product);
+		List<Estoque> obj = this.repository.findByProduct(product);
+		if(obj==null || obj.isEmpty()) {
+			throw new EstoqueApiException(
+					this.messageSource.getMessage("mensagem.pesquisa.vazia", null, LocaleContextHolder.getLocale()));
+		}
+		return obj;
 	}
 	
 	@Override

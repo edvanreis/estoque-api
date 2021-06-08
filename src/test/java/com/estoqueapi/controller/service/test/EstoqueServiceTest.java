@@ -1,5 +1,7 @@
 package com.estoqueapi.controller.service.test;
 
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
@@ -29,12 +31,19 @@ public class EstoqueServiceTest {
 	private  MessageSource messageSource;
 	
 	@Test
-	void findByProduct() {
+	void when_findByProduct_RunOK() {
+			when(this.repository.findByProduct(Mockito.eq("EMS"))).thenReturn(new ArrayList<>());
+			this.estoqueService.findByProduct(Mockito.eq("EMS"));
+	}
+	
+	@Test
+	void when_findByProduct_ThrowException() {
 		try {
-			Mockito.when(this.estoqueService.findByProduct(Mockito.anyString())).thenReturn(new ArrayList<>());
+			when(this.estoqueService.findByProduct(Mockito.eq("456"))).thenReturn(new ArrayList<>());
 		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}
+		
 	}
 	
 	@Test
