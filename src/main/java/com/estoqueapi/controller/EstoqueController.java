@@ -62,7 +62,7 @@ public class EstoqueController {
 		}
 	}
 	
-	@GetMapping("/store/{product}/{qtdStore}")
+	@GetMapping("/{product}/{qtdStore}/store")
 	public ResponseEntity<List<LojaDTO>> getInventoryByStore(@PathVariable String product,@PathVariable  Integer qtdStore) {
 		try {
 			return ResponseEntity.ok().body(this.productDeliverySevice.getInventoryByStore(product,qtdStore));
