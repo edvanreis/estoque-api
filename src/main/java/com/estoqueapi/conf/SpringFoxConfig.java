@@ -30,7 +30,7 @@ public class SpringFoxConfig {
           "1.0", 
           "Terms of Service", 
           new Contact("Edvan Reis","https://github.com/edvanreis/estoque-api", "edvan.reis.moura@gmail.com"), 
-          null, null, null);
+          null, null, null);  
 		
 		return apiInfo;
 	}
