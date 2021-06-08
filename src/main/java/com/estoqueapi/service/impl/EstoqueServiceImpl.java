@@ -173,7 +173,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 	@Override
 	public List<EstoqueDTO> findAll() {
 		List<Estoque> obj = Lists.newArrayList(this.repository.findAll());
-		if (obj != null) {
+		if (obj != null && !obj.isEmpty()) {
 			return obj.stream().map(this::modelToDto).collect(Collectors.toList());
 		} else {
 			throw new EstoqueApiException(
