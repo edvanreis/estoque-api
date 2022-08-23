@@ -21,7 +21,7 @@
       <p>JUNIT: 5,</p>
   </li>
   <li>
-      <p>pring-boot-starter-test:2.4.5 ,</p>
+      <p>Spring-boot-starter-test:2.4.5 ,</p>
   </li>
   <li>
       <p>DataBase para teste: postgres</p>
