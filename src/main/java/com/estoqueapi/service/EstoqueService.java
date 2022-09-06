@@ -17,17 +17,11 @@ public interface EstoqueService {
 
 	public void save(EstoqueDTO dto);
 	
-	public void upadte(EstoqueDTO dto);
+	public void update(EstoqueDTO dto);
 	
-	public void remove(Long id);
+	public void remove(String id);
 	
 	public List<EstoqueDTO> findAll();
-	
-	public Estoque dtoToModel(EstoqueDTO dto);
-	
-	public Estoque dtoToModelForUpdate(EstoqueDTO dto,Estoque estoque);
-	
-	public EstoqueDTO modelToDto(Estoque estoque);
 	
 	public void validateAndSave(EstoqueDTO dto, String file);
 	

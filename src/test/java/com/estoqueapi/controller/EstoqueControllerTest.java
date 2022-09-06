@@ -1,9 +1,11 @@
-package com.estoqueapi.controller.test;
+package com.estoqueapi.controller;
 
 import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.estoqueapi.mock.Mocks;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,33 +58,18 @@ public class EstoqueControllerTest {
 	}
 	
 	@Test
-	void when_save() {
-		try {
-			
-			EstoqueDTO dto = EstoqueDTO.builder()
-						   .product("LONE")
-						   .quantity(47l)
-						   .price("$5.83")
-						   .type("2XL")
-						   .industry("Oil & Gas Production")
-						   .origin("CA")
-						   .build();
-			
-			 Gson gson = new Gson();
-			 String json = gson.toJson(dto);	
-			 
-			 System.out.println(json); 
-				mvc.perform(MockMvcRequestBuilders.post("/estoque")
-										  .content(json.toString())
-										  .contentType(MediaType.APPLICATION_JSON)
-										  .accept(MediaType.APPLICATION_JSON))
-										  .andDo(print())
-										  .andExpect(status().isOk());
-				
-												
-		} catch (Exception e) {
-			Assertions.assertNotNull(e);
-		}
+	@SneakyThrows
+	void when_saveReturnOK() {
+		 var estoque = Mocks.createEstoqueDto();
+		 var  gson = new Gson();
+		 var  payload = gson.toJson(estoque);
+			mvc.perform(MockMvcRequestBuilders.post("/estoque")
+									  .content(payload.toString())
+									  .contentType(MediaType.APPLICATION_JSON)
+									  .accept(MediaType.APPLICATION_JSON))
+									  .andDo(print())
+									  .andExpect(status().isOk());
+
 									      
 	}
 	

@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import com.estoqueapi.convert.ConverterForUpdate;
+import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModel;
+import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModelForUpdate;
+import com.estoqueapi.convert.impl.ConvertEstoquelToDto;
 import org.springframework.stereotype.Service;
 
 import com.estoqueapi.dto.EstoqueDTO;
@@ -33,13 +35,16 @@ import lombok.AllArgsConstructor;
 public class EstoqueServiceImpl implements EstoqueService {
 
 	private final EstoqueRepository repository;
-	
-	private final MessageSource messageSource;
+
+	private final ConvertEstoquelToDto convertModelToDto;
+
+	private final ConvertEstoqueDtoToModel convertDtoToModel;
+
+	private final ConvertEstoqueDtoToModelForUpdate converterForUpdate;
 
 	/***
 	 * Próposito:receber e salvar o estoque
-	 * 
-	 * @param lista
+	 *
 	 */
 	@Transactional
 	@Override
@@ -52,88 +57,21 @@ public class EstoqueServiceImpl implements EstoqueService {
 	}
 	
 	@Override
-	public void upadte(EstoqueDTO dto) {
+	public void update(EstoqueDTO dto) {
 		Optional<Estoque> estoqueOpt = this.repository.findById(dto.getId());
 		if(estoqueOpt.isPresent()) {
-			Estoque estoque = dtoToModelForUpdate(dto,estoqueOpt.get());
+			Estoque estoque = converterForUpdate.convert(estoqueOpt.get(),dto);
 			this.repository.save(estoque);			
 		}
 	}
 
 	@Override
-	public void remove(Long id) {
+	public void remove(String id) {
 		Optional<Estoque> estoqueOpt = this.repository.findById(id);
 		if(estoqueOpt.isPresent()) {
 			this.repository.delete(estoqueOpt.get());
 		}
 	}
-
-	/**
-	 * Próposito converter para model
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	@Override
-	public Estoque dtoToModel(EstoqueDTO dto) {
-
-		Estoque estoque = new Estoque();
-		estoque.setProduct(dto.getProduct());
-		estoque.setQuantity(dto.getQuantity());
-		estoque.setType(dto.getType());
-		estoque.setIndustry(dto.getIndustry());
-		estoque.setOrigin(dto.getOrigin());
-		estoque.setFile(dto.getFile());
-		estoque.setPrice(CoreUtil.princeToBigDecimal(dto.getPrice()));
-		
-		return estoque;
-	}
-	
-	/**
-	 * Próposito converter para model
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	@Override
-	public Estoque dtoToModelForUpdate(EstoqueDTO dto,Estoque estoque) {
-				
-			estoque.setProduct(dto.getProduct());
-			estoque.setQuantity(dto.getQuantity());
-			estoque.setType(dto.getType());
-			estoque.setIndustry(dto.getIndustry());
-			estoque.setOrigin(dto.getOrigin());
-			estoque.setFile(dto.getFile());
-			estoque.setPrice(CoreUtil.princeToBigDecimal(dto.getPrice()));
-			estoque.setFile(dto.getFile());
-			estoque.setDataAtualizacao(LocalDateTime.now());
-		
-		return estoque;
-	}
-
-	/**
-	 * Próposito converter para model
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	@Override
-	public EstoqueDTO modelToDto(Estoque estoque) {
-		
-		return    EstoqueDTO.builder()
-							.id(estoque.getId())
-							.product(estoque.getProduct())
-							.quantity(estoque.getQuantity())
-							.type(estoque.getType())
-							.industry(estoque.getIndustry())
-							.origin(estoque.getOrigin())
-							.file(estoque.getFile())
-							.price(CoreUtil.princeToString(estoque.getPrice()))
-							.file(estoque.getFile())
-							.priceDecimal(estoque.getPrice())
-							.build();
-	}
-
 
 
 	/**
@@ -148,8 +86,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 		Optional<Estoque> estoqueOpt = findByProductAndPriceAndQuantity(dto.getProduct(), price, dto.getQuantity());
 		if (!estoqueOpt.isPresent()) {
 			dto.setFile(file);
-			Estoque estoque = dtoToModel(dto);
-			estoque.setDataCriacao(LocalDateTime.now());
+			Estoque estoque = convertDtoToModel.converter(dto);
 			this.repository.save(estoque);
 		}
 	}
@@ -163,9 +100,8 @@ public class EstoqueServiceImpl implements EstoqueService {
 	@Override
 	public List<Estoque> findByProduct(String product) {
 		List<Estoque> obj = this.repository.findByProduct(product);
-		if(obj==null || obj.isEmpty()) {
-			throw new EstoqueApiException(
-					this.messageSource.getMessage("mensagem.pesquisa.vazia", null, LocaleContextHolder.getLocale()));
+		if(CoreUtil.isListNotEmpty(obj)) {
+			throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 		}
 		return obj;
 	}
@@ -173,11 +109,12 @@ public class EstoqueServiceImpl implements EstoqueService {
 	@Override
 	public List<EstoqueDTO> findAll() {
 		List<Estoque> obj = Lists.newArrayList(this.repository.findAll());
-		if (obj != null && !obj.isEmpty()) {
-			return obj.stream().map(this::modelToDto).collect(Collectors.toList());
+		if(CoreUtil.isListNotEmpty(obj)) {
+			return obj.stream().map(e->{
+				return convertModelToDto.converter(e);
+			}).collect(Collectors.toList());
 		} else {
-			throw new EstoqueApiException(
-					this.messageSource.getMessage("mensagem.pesquisa.vazia", null, LocaleContextHolder.getLocale()));
+			throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 		}
 
 	}

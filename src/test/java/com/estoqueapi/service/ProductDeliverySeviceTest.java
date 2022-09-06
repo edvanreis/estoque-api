@@ -1,4 +1,4 @@
-package com.estoqueapi.controller.service.test;
+package com.estoqueapi.service;
 
 import static org.mockito.Mockito.when;
 
@@ -15,39 +15,28 @@ import org.springframework.context.MessageSource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.estoqueapi.exception.EstoqueApiException;
-import com.estoqueapi.repository.EstoqueRepository;
 import com.estoqueapi.service.EstoqueService;
-import com.estoqueapi.service.impl.EstoqueServiceImpl;
+import com.estoqueapi.service.impl.ProductDeliverySeviceImpl;
 
 @DisplayName("Tests for the EstoqueServiceTest ")
 @ExtendWith(SpringExtension.class)
-public class EstoqueServiceTest {
-	
+public class ProductDeliverySeviceTest {
+
 	@InjectMocks
-	private EstoqueServiceImpl estoqueService;
+	private ProductDeliverySeviceImpl productDeliverySevice;
 	
 	@Mock
-	private EstoqueRepository repository;
+	private EstoqueService repository;
 	
 	@Mock
 	private  MessageSource messageSource;
 	
-	@Test
-	void when_findByProduct() {
-		try {
-			when(this.repository.findByProduct("EMS")).thenReturn(new ArrayList<>());
-			this.estoqueService.findByProduct("EMS");
-		} catch (EstoqueApiException e) {
-			Assertions.assertNotNull(e);
-		}	
-	}
-
 	
 	@Test
-	void when_findByAll() {
+	void getInventoryByStoreTest() {
 		try {
-			when(this.repository.findAll()).thenReturn(new ArrayList<>());
-			this.estoqueService.findAll();
+			when(this.repository.findByProduct("EMS")).thenReturn(new ArrayList<>());
+			this.productDeliverySevice.getInventoryByStore("EMS",2);
 		} catch (EstoqueApiException e) {
 			Assertions.assertNotNull(e);
 		}

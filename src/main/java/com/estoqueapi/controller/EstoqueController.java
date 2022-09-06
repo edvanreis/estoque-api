@@ -2,6 +2,8 @@ package com.estoqueapi.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -37,10 +39,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/estoque")
 public class EstoqueController {
 
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = 3870605823789433847L;
 	
 	private final EstoqueService service;
 	
@@ -48,20 +46,28 @@ public class EstoqueController {
 	
 	private final MessageSource messageSource;
 
-	
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = ""),
+			@ApiResponse(responseCode = "400", description = "Invalid parameters"),
+			@ApiResponse(responseCode = "404", description = "not found"),
+			@ApiResponse(responseCode = "500", description = "Failure")
+	})
 	@PostMapping
 	public ResponseEntity<ResponseMessageDTO> save(@Validated @RequestBody EstoqueDTO estoque){
 		try {
 			this.service.save(estoque);
 			return ResponseEntity.ok().body(
-					new ResponseMessageDTO(HttpStatus.OK.value(), 
-							this.messageSource
-							.getMessage("mensagem.sucesso", null,LocaleContextHolder.getLocale())));
+					new ResponseMessageDTO(HttpStatus.OK.value(), "Produto salvo com sucesso!"));
 		} catch (EstoqueApiException ex) {
 			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
-	
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ""),
+			@ApiResponse(responseCode = "400", description = "Invalid parameters"),
+			@ApiResponse(responseCode = "404", description = "not found"),
+			@ApiResponse(responseCode = "500", description = "Failure")
+	})
 	@GetMapping("/{product}/{qtdStore}/store")
 	public ResponseEntity<List<LojaDTO>> getInventoryByStore(@PathVariable String product,@PathVariable  Integer qtdStore) {
 		try {
@@ -70,7 +76,13 @@ public class EstoqueController {
 			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
-	
+
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ""),
+			@ApiResponse(responseCode = "400", description = "Invalid parameters"),
+			@ApiResponse(responseCode = "404", description = "not found"),
+			@ApiResponse(responseCode = "500", description = "Failure")
+	})
 	@GetMapping
 	public ResponseEntity<List<EstoqueDTO>> findAll() {
 		try {

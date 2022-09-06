@@ -52,8 +52,7 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 			lojas = setProduct(qtdStore, produtos, lojas);
 
 		}else {
-			throw new EstoqueApiException(this.messageSource
-					.getMessage("mensagem.pesquisa.vazia", null,LocaleContextHolder.getLocale()));
+			throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 		}
 		return lojas;
 	}
@@ -129,11 +128,12 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 						}
 						quantidades.add(produto.getQuantity());
 					}
-					
+
+					var price = produto.getPrice().replace("$","");
 					result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
 					result.setProduct(produto.getProduct());
 					result.setVolume(new DecimalFormat("#,##0.00")
-							        .format(produto.getPrice().multiply(new BigDecimal(result.getQuantity()))
+							        .format(new BigDecimal(price).multiply(new BigDecimal(result.getQuantity()))
 									.doubleValue()));
 					loja.getProtucts().add(result);
 				    
@@ -172,8 +172,9 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 				result.setQuantity(produto.getQuantity());
 				result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
 				result.setProduct(produto.getProduct());
+				var price = produto.getPrice().replace("$","");
 				result.setVolume(new DecimalFormat("#,##0.00")
-						.format(produto.getPrice().multiply(new BigDecimal(result.getQuantity())).doubleValue()));
+						.format(new BigDecimal(price).multiply(new BigDecimal(result.getQuantity())).doubleValue()));
 				loja.getProtucts().add(result);
 
 				qtd = qtd + result.getQuantity();
