@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 @Slf4j
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = EstoqueRepository.class)
 @EntityScan(basePackages = {"com.estoqueapi.model"})
 @EnableJpaRepositories(basePackages = " com.estoqueapi.repository")
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})

@@ -101,9 +101,9 @@ public class EstoqueServiceImpl implements EstoqueService {
 	public List<Estoque> findByProduct(String product) {
 		List<Estoque> obj = this.repository.findByProduct(product);
 		if(CoreUtil.isListNotEmpty(obj)) {
-			throw new EstoqueApiException("Não existem dados para esta pesquisa!");
+			return obj;
 		}
-		return obj;
+		throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 	}
 	
 	@Override

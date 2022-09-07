@@ -41,28 +41,21 @@ public class EstoqueControllerTest {
 	
 	
 	@Test
-	void when_inventoryByStore() {
-		try {
-			
-		
-			mvc.perform(MockMvcRequestBuilders.get("/estoque/{product}/{qtdStore}/store","EMS",2)
-												  .contentType(MediaType.APPLICATION_JSON)
-												  .accept(MediaType.APPLICATION_JSON))
-												  .andDo(print())
-												  .andExpect(status().isOk());
-												
-		} catch (Exception e) {
-			Assertions.assertNotNull(e);
-		}
-									      
+	@SneakyThrows
+	void when_inventoryByStoreReturnOK() {
+		mvc.perform(MockMvcRequestBuilders.get("/estoque/{product}/{qtdStore}/store","EMS",2)
+											  .contentType(MediaType.APPLICATION_JSON)
+											  .accept(MediaType.APPLICATION_JSON))
+											  .andDo(print())
+											  .andExpect(status().isOk());
+
 	}
 	
 	@Test
 	@SneakyThrows
 	void when_saveReturnOK() {
 		 var estoque = Mocks.createEstoqueDto();
-		 var  gson = new Gson();
-		 var  payload = gson.toJson(estoque);
+		 var  payload = new Gson().toJson(estoque);
 			mvc.perform(MockMvcRequestBuilders.post("/estoque")
 									  .content(payload.toString())
 									  .contentType(MediaType.APPLICATION_JSON)
@@ -75,17 +68,16 @@ public class EstoqueControllerTest {
 	
 	
 	@Test
-	void when_findAll() {
-		try {
-				mvc.perform(MockMvcRequestBuilders.get("/estoque")
-										  .contentType(MediaType.APPLICATION_JSON)
-										  .accept(MediaType.APPLICATION_JSON))
-										  .andDo(print())
-										  .andExpect(status().isOk());
+	@SneakyThrows
+	void when_findAllReturnOK() {
+
+		mvc.perform(MockMvcRequestBuilders.get("/estoque")
+								  .contentType(MediaType.APPLICATION_JSON)
+								  .accept(MediaType.APPLICATION_JSON))
+								  .andDo(print())
+								  .andExpect(status().isOk());
 				
-		} catch (Exception e) {
-			Assertions.assertNotNull(e);
-		}
+
 									      
 	}
 
