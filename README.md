@@ -9,22 +9,22 @@
       <p>Tecnologias utilizadas na implementação:</p>
   </li>
   <li>
-      <p>JAVA: 8,</p>
+      <p>JAVA: 17,</p>
   </li>
   <li>
-      <p>Spring boot:2.4.5 ,</p>
+      <p>Spring boot:2.7.3 ,</p>
   </li>
   <li>
-      <p>SPRING-DATA-JPA:2.4.5 ,</p>
+      <p>SPRING-DATA-JPA:2.7.3 ,</p>
   </li>
   <li>
       <p>JUNIT: 5,</p>
   </li>
   <li>
-      <p>Spring-boot-starter-test:2.4.5 ,</p>
+      <p>Spring-boot-starter-test:2.7.3 ,</p>
   </li>
   <li>
-      <p>DataBase para teste: postgres</p>
+      <p>DataBase para teste: mongodb</p>
   </li>
   <li>
       <p>Lombok.</p>
