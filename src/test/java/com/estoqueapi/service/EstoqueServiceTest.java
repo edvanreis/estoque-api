@@ -55,7 +55,7 @@ public class EstoqueServiceTest {
 
 
 	@Test
-	public void when_findByAll() {
+	public void when_findByAllReturnOK(() {
 		when(this.repository.findAll()).thenReturn(Arrays.asList(Mocks.createEstoque()));
 		when(this.convertModelToDto.converter(Mocks.createEstoque())).thenReturn(Mocks.createEstoqueDto());
 		this.estoqueService.findAll();
