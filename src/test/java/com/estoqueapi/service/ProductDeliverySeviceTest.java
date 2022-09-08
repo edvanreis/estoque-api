@@ -1,25 +1,23 @@
 package com.estoqueapi.service;
 
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-
-import org.junit.jupiter.api.Assertions;
+import com.estoqueapi.exception.EstoqueApiException;
+import com.estoqueapi.mock.Mocks;
+import com.estoqueapi.service.impl.ProductDeliverySeviceImpl;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.estoqueapi.exception.EstoqueApiException;
-import com.estoqueapi.service.EstoqueService;
-import com.estoqueapi.service.impl.ProductDeliverySeviceImpl;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-@DisplayName("Tests for the EstoqueServiceTest ")
-@ExtendWith(SpringExtension.class)
+import static org.mockito.Mockito.when;
+
+@DisplayName("Tests for the ProductDeliverySeviceTest ")
+@RunWith(SpringRunner.class)
 public class ProductDeliverySeviceTest {
 
 	@InjectMocks
@@ -33,15 +31,24 @@ public class ProductDeliverySeviceTest {
 	
 	
 	@Test
-	void getInventoryByStoreTest() {
-		try {
-			when(this.repository.findByProduct("EMS")).thenReturn(new ArrayList<>());
-			this.productDeliverySevice.getInventoryByStore("EMS",2);
-		} catch (EstoqueApiException e) {
-			Assertions.assertNotNull(e);
-		}
-		
+	public void when_getInventoryByStoreSizeTwoReturnOK() {
+		when(this.repository.findByProduct("LONE")).thenReturn(Arrays.asList(Mocks.createEstoque()));
+		this.productDeliverySevice.getInventoryByStore("LONE",2);
 	}
+
+	@Test
+	public void when_getInventoryByStoreOneReturnOK() {
+		when(this.repository.findByProduct("LONE")).thenReturn(Arrays.asList(Mocks.createEstoque()));
+		this.productDeliverySevice.getInventoryByStore("LONE",1);
+	}
+
+	@Test(expected = EstoqueApiException.class)
+	public void when_getInventoryByStoreDoNotReturnOK() {
+		when(this.repository.findByProduct("LONE")).thenReturn(new ArrayList<>());
+		this.productDeliverySevice.getInventoryByStore("LONE",2);
+
+	}
+
 	
 	
 }

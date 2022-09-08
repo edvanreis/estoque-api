@@ -58,19 +58,19 @@ public class EstoqueServiceImpl implements EstoqueService {
 	
 	@Override
 	public void update(EstoqueDTO dto) {
-		Optional<Estoque> estoqueOpt = this.repository.findById(dto.getId());
-		if(estoqueOpt.isPresent()) {
-			Estoque estoque = converterForUpdate.convert(estoqueOpt.get(),dto);
-			this.repository.save(estoque);			
-		}
+		var estoqueOpt = this.repository.findById(dto.getId());
+		estoqueOpt.ifPresent(e->{
+			var estoque = converterForUpdate.convert(e,dto);
+			this.repository.save(estoque);
+		});
 	}
 
 	@Override
 	public void remove(String id) {
-		Optional<Estoque> estoqueOpt = this.repository.findById(id);
-		if(estoqueOpt.isPresent()) {
-			this.repository.delete(estoqueOpt.get());
-		}
+		var estoqueOpt = this.repository.findById(id);
+		estoqueOpt.ifPresent(e->{
+			this.repository.delete(e);
+		});
 	}
 
 
@@ -82,11 +82,11 @@ public class EstoqueServiceImpl implements EstoqueService {
 	 */
 	@Override
 	public void validateAndSave(EstoqueDTO dto, String file) {
-		BigDecimal price = CoreUtil.princeToBigDecimal(dto.getPrice());
-		Optional<Estoque> estoqueOpt = findByProductAndPriceAndQuantity(dto.getProduct(), price, dto.getQuantity());
+		var price = CoreUtil.princeToBigDecimal(dto.getPrice());
+		var estoqueOpt = findByProductAndPriceAndQuantity(dto.getProduct(), price, dto.getQuantity());
 		if (!estoqueOpt.isPresent()) {
 			dto.setFile(file);
-			Estoque estoque = convertDtoToModel.converter(dto);
+			var estoque = convertDtoToModel.convert(dto);
 			this.repository.save(estoque);
 		}
 	}
@@ -99,7 +99,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 
 	@Override
 	public List<Estoque> findByProduct(String product) {
-		List<Estoque> obj = this.repository.findByProduct(product);
+		var obj = this.repository.findByProduct(product);
 		if(CoreUtil.isListNotEmpty(obj)) {
 			return obj;
 		}
@@ -108,10 +108,10 @@ public class EstoqueServiceImpl implements EstoqueService {
 	
 	@Override
 	public List<EstoqueDTO> findAll() {
-		List<Estoque> obj = Lists.newArrayList(this.repository.findAll());
+		var obj = Lists.newArrayList(this.repository.findAll());
 		if(CoreUtil.isListNotEmpty(obj)) {
 			return obj.stream().map(e->{
-				return convertModelToDto.converter(e);
+				return convertModelToDto.convert(e);
 			}).collect(Collectors.toList());
 		} else {
 			throw new EstoqueApiException("Não existem dados para esta pesquisa!");

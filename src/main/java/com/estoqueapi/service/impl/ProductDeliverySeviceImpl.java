@@ -44,17 +44,16 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 	 */
 	@Override
 	public List<LojaDTO> getInventoryByStore(String product,Integer qtdStore) {
-		List<Estoque> produtos = this.estoqueService.findByProduct(product.toUpperCase());
-		List<LojaDTO> lojas = new ArrayList<>();
+		var produtos = this.estoqueService.findByProduct(product.toUpperCase());
+
 		if (CoreUtil.isListNotEmpty(produtos)) {
-			
+			List<LojaDTO> lojas = new ArrayList<>();
 			lojas.addAll(createStore(qtdStore));
 			lojas = setProduct(qtdStore, produtos, lojas);
+			return lojas;
 
-		}else {
-			throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 		}
-		return lojas;
+		throw new EstoqueApiException("Não existem dados para esta pesquisa!");
 	}
 	
 	/**
@@ -62,12 +61,11 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 	 * @param qtdStore
 	 * @return
 	 */
-	@Override
-	public List<LojaDTO> createStore(Integer qtdStore) {
+	private List<LojaDTO> createStore(Integer qtdStore) {
 		List<LojaDTO> lojas = new ArrayList<>();
 		int count = 1;
 		for (int i = 0; i < qtdStore; i++) {
-			LojaDTO loja = new LojaDTO();
+			var loja = new LojaDTO();
 			loja.setName(LOJA_NAME + count);
 			lojas.add(loja);
 			count++;
@@ -82,8 +80,8 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 	 * @param lojas
 	 * @return
 	 */
-	@Override
-	public List<LojaDTO> setProduct(Integer qtdStore, List<Estoque> produtos, List<LojaDTO> lojas) {
+
+	private List<LojaDTO> setProduct(Integer qtdStore, List<Estoque> produtos, List<LojaDTO> lojas) {
 		
 		
 		boolean inversao = false;
@@ -105,7 +103,7 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 				
 				for (Estoque produto : produtos) {
 					
-					ResultDTO result = new ResultDTO();
+					var result = new ResultDTO();
 					
 					if(produto.getQuantity()%2==0) {
 						result.setQuantity(produto.getQuantity()/lojas.size());
@@ -130,7 +128,8 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 					}
 
 					var price = produto.getPrice().replace("$","");
-					result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
+
+					result.setPrice(new DecimalFormat("#,##0.00").format(new BigDecimal(price)));
 					result.setProduct(produto.getProduct());
 					result.setVolume(new DecimalFormat("#,##0.00")
 							        .format(new BigDecimal(price).multiply(new BigDecimal(result.getQuantity()))
@@ -157,8 +156,7 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 	 * @param lojas
 	 * @return
 	 */
-	@Override
-	public List<LojaDTO> calcOneStore(List<Estoque> produtos, List<LojaDTO> lojas) {
+	private List<LojaDTO> calcOneStore(List<Estoque> produtos, List<LojaDTO> lojas) {
 		for (LojaDTO loja : lojas) {
 
 			Long qtd = 0l;
@@ -170,9 +168,9 @@ public class ProductDeliverySeviceImpl implements ProductDeliverySevice {
 
 				ResultDTO result = new ResultDTO();
 				result.setQuantity(produto.getQuantity());
-				result.setPrice(new DecimalFormat("#,##0.00").format(produto.getPrice()));
-				result.setProduct(produto.getProduct());
 				var price = produto.getPrice().replace("$","");
+				result.setPrice(new DecimalFormat("#,##0.00").format(new BigDecimal(price)));
+				result.setProduct(produto.getProduct());
 				result.setVolume(new DecimalFormat("#,##0.00")
 						.format(new BigDecimal(price).multiply(new BigDecimal(result.getQuantity())).doubleValue()));
 				loja.getProtucts().add(result);

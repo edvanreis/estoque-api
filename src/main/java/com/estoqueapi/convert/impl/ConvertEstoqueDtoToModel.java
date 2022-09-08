@@ -5,11 +5,16 @@ import com.estoqueapi.dto.EstoqueDTO;
 import com.estoqueapi.model.Estoque;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class ConvertEstoqueDtoToModel implements Converter<Estoque, EstoqueDTO> {
 
     @Override
-    public Estoque converter(EstoqueDTO estoque) {
+    public Estoque convert(EstoqueDTO estoque) {
+        if(Objects.isNull(estoque)){
+            return null;
+        }
         return    Estoque.builder()
                         .product(estoque.getProduct())
                         .quantity(estoque.getQuantity())
