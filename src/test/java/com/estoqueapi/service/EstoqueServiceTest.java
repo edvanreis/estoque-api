@@ -66,7 +66,7 @@ public class EstoqueServiceTest {
 	}
 
 	@Test(expected = EstoqueApiException.class)
-	public void when_findByProductNotDoNotOK() {
+	public void when_findByProductDoNotOK() {
 		when(this.repository.findAll()).thenReturn(new ArrayList<>());
 		this.estoqueService.findAll();
 	}
