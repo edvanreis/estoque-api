@@ -37,7 +37,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin(origins = "*", allowedHeaders = "*") 
 @AllArgsConstructor 
 @RestController
-@RequestMapping(value = "/estoque",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/estoque")
 public class EstoqueController {
 
 	

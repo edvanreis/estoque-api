@@ -3,10 +3,13 @@ package com.estoqueapi.service;
 import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModel;
 import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModelForUpdate;
 import com.estoqueapi.convert.impl.ConvertEstoquelToDto;
+import com.estoqueapi.dto.EstoqueDTO;
 import com.estoqueapi.exception.EstoqueApiException;
 import com.estoqueapi.mock.Mocks;
+import com.estoqueapi.model.Estoque;
 import com.estoqueapi.repository.EstoqueRepository;
 import com.estoqueapi.service.impl.EstoqueServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -17,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -40,10 +44,32 @@ public class EstoqueServiceTest {
 	@Mock
 	private ConvertEstoqueDtoToModelForUpdate converterForUpdate;
 
-	
+	private static String PRODUCT = "LONE";
+
+	private static BigDecimal VALUE = new BigDecimal("5.83");
+
+	private static Long QUANTITY = 47l;
+
+	private Estoque estoque;
+
+	private EstoqueDTO estoqueDto;
+
+	private List<Estoque> estoqueList;
+
+	private Optional<Estoque> estoqueOpt;
+
+
+	@Before
+	public void init() {
+		estoque = Mocks.createEstoque();
+		estoqueList = Arrays.asList(estoque);
+		estoqueDto = Mocks.createEstoqueDto();
+		estoqueOpt = Optional.of(estoque);
+	}
+
 	@Test
 	public void when_findByProductReturnOK() {
-		when(this.repository.findByProduct(anyString())).thenReturn(Arrays.asList(Mocks.createEstoque()));
+		when(this.repository.findByProduct(anyString())).thenReturn(estoqueList);
 		this.estoqueService.findByProduct(anyString());
 		verify(repository, times(1)).findByProduct(anyString());
 	}
@@ -58,11 +84,11 @@ public class EstoqueServiceTest {
 
 	@Test
 	public void when_findByAllReturnOK() {
-		when(this.repository.findAll()).thenReturn(Arrays.asList(Mocks.createEstoque()));
-		when(this.convertModelToDto.convert(Mocks.createEstoque())).thenReturn(Mocks.createEstoqueDto());
+		when(this.repository.findAll()).thenReturn(estoqueList);
+		when(this.convertModelToDto.convert(Mocks.createEstoque())).thenReturn(estoqueDto);
 		this.estoqueService.findAll();
 		verify(repository, times(1)).findAll();
-		verify(convertModelToDto, times(1)).convert(Mocks.createEstoque());
+		verify(convertModelToDto, times(1)).convert(estoque);
 	}
 
 	@Test(expected = EstoqueApiException.class)
@@ -73,26 +99,26 @@ public class EstoqueServiceTest {
 
 	@Test
 	public void when_findByProductAndPriceAndQuantityReturnOK() {
-		when(this.repository.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l)).thenReturn(Optional.of(Mocks.createEstoque()));
-		this.estoqueService.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l);
-		verify(repository, times(1)).findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l);
+		when(this.repository.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(estoqueOpt);
+		this.estoqueService.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY);
+		verify(repository, times(1)).findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY);
 	}
 
 	@Test
 	public void when_validateAndSaveEstotquePresentReturnOK() {
 		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
-		when(this.repository.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l)).thenReturn(Optional.of(Mocks.createEstoque()));
-		when(this.estoqueService.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l)).thenReturn(Optional.of(Mocks.createEstoque()));
+		when(this.repository.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(estoqueOpt);
+		when(this.estoqueService.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(Optional.of(Mocks.createEstoque()));
 		this.estoqueService.validateAndSave(Mocks.createEstoqueDto(),null);
-		verify(repository, times(1)).findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l);
+		verify(repository, times(1)).findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY);
 	}
 	@Test
 	public void when_validateAndSaveEstotqueDoNotPresentReturnOK() {
 		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
-		when(this.repository.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l)).thenReturn(Optional.of(Mocks.createEstoque()));
-		when(this.estoqueService.findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l)).thenReturn(Optional.empty());
+		when(this.repository.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(estoqueOpt);
+		when(this.estoqueService.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(Optional.empty());
 		this.estoqueService.validateAndSave(Mocks.createEstoqueDto(),null);
-		verify(repository, times(1)).findByProductAndPriceAndQuantity("LONE",new BigDecimal("5.83"),47l);
+		verify(repository, times(1)).findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY);
 	}
 
 	@Test
@@ -106,7 +132,7 @@ public class EstoqueServiceTest {
 	@Test
 	public void when_updateReturnOK() {
 		var estoque = Mocks.createEstoque();
-		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
+		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(estoque);
 		when(this.repository.findById(estoque.getId())).thenReturn(Optional.of(Mocks.createEstoque()));
 		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
 		this.estoqueService.update(Mocks.createEstoqueDto());
@@ -115,15 +141,13 @@ public class EstoqueServiceTest {
 
 	@Test
 	public void when_saveReturnOK() {
-		var estoque = Mocks.createEstoqueDto();
-		estoque.setData(Arrays.asList(Mocks.createEstoqueDto()));
-		this.estoqueService.save(estoque);
+		estoqueDto.setData(Arrays.asList(Mocks.createEstoqueDto()));
+		this.estoqueService.save(estoqueDto);
 	}
 
 	@Test
 	public void when_saveDoNotDataReturnOK() {
-		var estoque = Mocks.createEstoqueDto();
-		this.estoqueService.save(estoque);
+		this.estoqueService.save(estoqueDto);
 	}
 	
 	
