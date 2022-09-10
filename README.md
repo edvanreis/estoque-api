@@ -23,6 +23,9 @@
   <li>
       <p>Spring-boot-starter-test:2.7.3 ,</p>
   </li>
+    <li>
+      <p>Jacoco plugin 0.8.7 ,</p>
+  </li>
   <li>
       <p>DataBase para teste: mongodb</p>
   </li>
@@ -56,6 +59,9 @@
   <li>6 - Importe no postman o arquivos <em>data_1.json,data_2.json,data_3.json,data_4.json</em> um cada vez que se encontra dentro da pasta  POSTMAN_ENDPOINTS</li>
 </ul>
 <h2>Swagger Api Documentation:</h2>
+<ul>
+    <li>https://estoque-loja-api-new.herokuapp.com/swagger-ui/index.html#/</h1>
+</ul>
 <ul>
     <li>https://estoque-loja-api.herokuapp.com/swagger-ui/index.html</h1>
 </ul>
