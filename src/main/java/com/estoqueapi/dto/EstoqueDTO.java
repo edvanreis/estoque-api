@@ -20,6 +20,7 @@ import lombok.Setter;
 public class EstoqueDTO implements Serializable {
 
 	private String id;
+
 	private String product;
 	private Long quantity;
 	private String price;

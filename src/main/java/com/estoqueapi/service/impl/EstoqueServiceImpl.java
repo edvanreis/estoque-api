@@ -42,13 +42,17 @@ public class EstoqueServiceImpl implements EstoqueService {
 
 	private final ConvertEstoqueDtoToModelForUpdate converterForUpdate;
 
-	/***
-	 * Próposito:receber e salvar o estoque
-	 *
-	 */
+
 	@Transactional
 	@Override
-	public void save(EstoqueDTO dto) {
+	public EstoqueDTO save(EstoqueDTO dto) {
+		var estoque = convertDtoToModel.convert(dto);
+		var model = this.repository.save(estoque);
+		return convertModelToDto.convert(model);
+	}
+
+	@Override
+	public void saveList(EstoqueDTO dto) {
 		if (CoreUtil.isListNotEmpty(dto.getData())) {
 			dto.getData().forEach(i -> validateAndSave(i, dto.getFile()));
 		} else {
@@ -86,8 +90,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 		var estoqueOpt = findByProductAndPriceAndQuantity(dto.getProduct(), price, dto.getQuantity());
 		if (!estoqueOpt.isPresent()) {
 			dto.setFile(file);
-			var estoque = convertDtoToModel.convert(dto);
-			this.repository.save(estoque);
+		    save(dto);
 		}
 	}
 

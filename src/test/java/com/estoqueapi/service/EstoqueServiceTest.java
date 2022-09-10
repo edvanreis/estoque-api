@@ -11,6 +11,7 @@ import com.estoqueapi.repository.EstoqueRepository;
 import com.estoqueapi.service.impl.EstoqueServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -56,6 +57,8 @@ public class EstoqueServiceTest {
 
 	private List<Estoque> estoqueList;
 
+	private List<EstoqueDTO> estoqueListDto;
+
 	private Optional<Estoque> estoqueOpt;
 
 
@@ -64,6 +67,7 @@ public class EstoqueServiceTest {
 		estoque = Mocks.createEstoque();
 		estoqueList = Arrays.asList(estoque);
 		estoqueDto = Mocks.createEstoqueDto();
+		estoqueListDto = Arrays.asList(estoqueDto);
 		estoqueOpt = Optional.of(estoque);
 	}
 
@@ -106,7 +110,7 @@ public class EstoqueServiceTest {
 
 	@Test
 	public void when_validateAndSaveEstotquePresentReturnOK() {
-		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
+		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(estoque);
 		when(this.repository.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(estoqueOpt);
 		when(this.estoqueService.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(Optional.of(Mocks.createEstoque()));
 		this.estoqueService.validateAndSave(Mocks.createEstoqueDto(),null);
@@ -114,7 +118,7 @@ public class EstoqueServiceTest {
 	}
 	@Test
 	public void when_validateAndSaveEstotqueDoNotPresentReturnOK() {
-		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
+		when(this.convertDtoToModel.convert(Mocks.createEstoqueDto())).thenReturn(estoque);
 		when(this.repository.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(estoqueOpt);
 		when(this.estoqueService.findByProductAndPriceAndQuantity(PRODUCT,VALUE,QUANTITY)).thenReturn(Optional.empty());
 		this.estoqueService.validateAndSave(Mocks.createEstoqueDto(),null);
@@ -124,7 +128,7 @@ public class EstoqueServiceTest {
 	@Test
 	public void when_removeReturnOK() {
 		var estoque = Mocks.createEstoque();
-		when(this.repository.findById(estoque.getId())).thenReturn(Optional.of(Mocks.createEstoque()));
+		when(this.repository.findById(estoque.getId())).thenReturn(estoqueOpt);
 		this.estoqueService.remove(estoque.getId());
 		verify(repository, times(1)).findById(estoque.getId());
 	}
@@ -133,21 +137,30 @@ public class EstoqueServiceTest {
 	public void when_updateReturnOK() {
 		var estoque = Mocks.createEstoque();
 		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(estoque);
-		when(this.repository.findById(estoque.getId())).thenReturn(Optional.of(Mocks.createEstoque()));
-		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(Mocks.createEstoque());
+		when(this.repository.findById(estoque.getId())).thenReturn(estoqueOpt);
+		when(this.converterForUpdate.convert(estoque,Mocks.createEstoqueDto())).thenReturn(estoque);
 		this.estoqueService.update(Mocks.createEstoqueDto());
 		verify(repository, times(1)).findById(estoque.getId());
 	}
 
 	@Test
-	public void when_saveReturnOK() {
-		estoqueDto.setData(Arrays.asList(Mocks.createEstoqueDto()));
-		this.estoqueService.save(estoqueDto);
+	public void when_saveListReturnOK() {
+		estoqueDto.setData(estoqueListDto);
+		this.estoqueService.saveList(estoqueDto);
 	}
 
 	@Test
-	public void when_saveDoNotDataReturnOK() {
+	public void when_saveListDoNotDataReturnOK() {
+		this.estoqueService.saveList(estoqueDto);
+	}
+
+
+	@Test
+	public void when_saveReturnOK() {
+		when(this.convertDtoToModel.convert(estoqueDto)).thenReturn(estoque);
+		when(this.repository.save(estoque)).thenReturn(estoque);
 		this.estoqueService.save(estoqueDto);
+		verify(repository, times(1)).save(estoque);
 	}
 	
 	

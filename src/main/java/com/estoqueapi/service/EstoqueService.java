@@ -15,7 +15,10 @@ import com.estoqueapi.model.Estoque;
  */
 public interface EstoqueService {
 
-	public void save(EstoqueDTO dto);
+	public void saveList(EstoqueDTO dto);
+
+
+	public EstoqueDTO save(EstoqueDTO dto);
 	
 	public void update(EstoqueDTO dto);
 	
