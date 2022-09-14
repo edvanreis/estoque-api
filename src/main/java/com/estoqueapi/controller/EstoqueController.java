@@ -49,10 +49,9 @@ public class EstoqueController {
 			@ApiResponse(responseCode = "500", description = "Failure")
 	})
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<EstoqueDTO> save(@Validated @RequestBody EstoqueDTO estoque){
 		try {
-			return ResponseEntity.ok().body(this.service.save(estoque));
+			return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(estoque));
 		} catch (Exception ex) {
 			throw new EstoqueApiException(ex.getMessage());
 		}

@@ -59,7 +59,7 @@ public class EstoqueControllerTest {
 									  .contentType(MediaType.APPLICATION_JSON)
 									  .accept(MediaType.APPLICATION_JSON))
 									  .andDo(print())
-									  .andExpect(status().isOk());
+									  .andExpect(status().isCreated());
 
 									      
 	}
