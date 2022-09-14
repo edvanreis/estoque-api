@@ -4,6 +4,7 @@ import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModel;
 import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModelForUpdate;
 import com.estoqueapi.convert.impl.ConvertEstoquelToDto;
 import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.dto.ProdutosDTO;
 import com.estoqueapi.exception.EstoqueApiException;
 import com.estoqueapi.mock.Mocks;
 import com.estoqueapi.model.Estoque;
@@ -61,6 +62,8 @@ public class EstoqueServiceTest {
 
 	private Optional<Estoque> estoqueOpt;
 
+	private ProdutosDTO produtos;
+
 
 	@Before
 	public void init() {
@@ -69,6 +72,7 @@ public class EstoqueServiceTest {
 		estoqueDto = Mocks.createEstoqueDto();
 		estoqueListDto = Arrays.asList(estoqueDto);
 		estoqueOpt = Optional.of(estoque);
+		produtos = ProdutosDTO.builder().data(Arrays.asList(estoqueDto)).build();
 	}
 
 	@Test
@@ -144,14 +148,8 @@ public class EstoqueServiceTest {
 	}
 
 	@Test
-	public void when_saveListReturnOK() {
-		estoqueDto.setData(estoqueListDto);
-		this.estoqueService.saveList(estoqueDto);
-	}
-
-	@Test
-	public void when_saveListDoNotDataReturnOK() {
-		this.estoqueService.saveList(estoqueDto);
+	public void when_saveAllReturnOK() {
+		this.estoqueService.saveAll(produtos);
 	}
 
 

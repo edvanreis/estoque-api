@@ -63,6 +63,21 @@ public class EstoqueControllerTest {
 
 									      
 	}
+
+	@Test
+	@SneakyThrows
+	public void when_saveAllReturnOK() {
+		var estoque = Mocks.createEstoqueDto();
+		var  payload = new Gson().toJson(estoque);
+		mvc.perform(MockMvcRequestBuilders.post("/estoque/saveAll")
+						.content(payload.toString())
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk());
+
+
+	}
 	
 	
 	@Test

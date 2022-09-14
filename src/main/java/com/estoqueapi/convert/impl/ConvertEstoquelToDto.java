@@ -24,7 +24,6 @@ public class ConvertEstoquelToDto implements Converter<EstoqueDTO, Estoque> {
                             .origin(estoque.getOrigin())
                             .file(estoque.getFile())
                             .price(estoque.getPrice())
-                            .file(estoque.getFile())
                             .build();
     }
 

@@ -2,6 +2,7 @@ package com.estoqueapi.controller;
 
 import java.util.List;
 
+import com.estoqueapi.dto.ProdutosDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.context.MessageSource;
@@ -10,13 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.estoqueapi.dto.EstoqueDTO;
 import com.estoqueapi.dto.LojaDTO;
@@ -54,15 +49,32 @@ public class EstoqueController {
 			@ApiResponse(responseCode = "500", description = "Failure")
 	})
 	@PostMapping
-	public ResponseEntity<ResponseMessageDTO> save(@Validated @RequestBody EstoqueDTO estoque){
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<EstoqueDTO> save(@Validated @RequestBody EstoqueDTO estoque){
 		try {
-			this.service.save(estoque);
+			return ResponseEntity.ok().body(this.service.save(estoque));
+		} catch (Exception ex) {
+			throw new EstoqueApiException(ex.getMessage());
+		}
+	}
+
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = ""),
+			@ApiResponse(responseCode = "400", description = "Invalid parameters"),
+			@ApiResponse(responseCode = "404", description = "not found"),
+			@ApiResponse(responseCode = "500", description = "Failure")
+	})
+	@PostMapping("saveAll")
+	public ResponseEntity<ResponseMessageDTO> saveAll(@Validated @RequestBody ProdutosDTO produtos){
+		try {
+			this.service.saveAll(produtos);
 			return ResponseEntity.ok().body(
-					new ResponseMessageDTO(HttpStatus.OK.value(), "Produto salvo com sucesso!"));
+					new ResponseMessageDTO(HttpStatus.OK.value(), "Produtos salvos com sucesso!"));
 		} catch (EstoqueApiException ex) {
 			throw new EstoqueApiException(ex.getMessage());
 		}
 	}
+
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = ""),
 			@ApiResponse(responseCode = "400", description = "Invalid parameters"),

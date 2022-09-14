@@ -12,6 +12,7 @@ import com.estoqueapi.convert.ConverterForUpdate;
 import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModel;
 import com.estoqueapi.convert.impl.ConvertEstoqueDtoToModelForUpdate;
 import com.estoqueapi.convert.impl.ConvertEstoquelToDto;
+import com.estoqueapi.dto.ProdutosDTO;
 import org.springframework.stereotype.Service;
 
 import com.estoqueapi.dto.EstoqueDTO;
@@ -28,7 +29,7 @@ import lombok.AllArgsConstructor;
  * Data de Criação:05/05/2021
  * 
  * @author endr
- * @version 1.0
+ * @version 1.2
  */
 @Service
 @AllArgsConstructor
@@ -47,16 +48,13 @@ public class EstoqueServiceImpl implements EstoqueService {
 	@Override
 	public EstoqueDTO save(EstoqueDTO dto) {
 		var estoque = convertDtoToModel.convert(dto);
-		var model = this.repository.save(estoque);
-		return convertModelToDto.convert(model);
+		return convertModelToDto.convert(this.repository.save(estoque));
 	}
 
 	@Override
-	public void saveList(EstoqueDTO dto) {
+	public void saveAll(ProdutosDTO dto) {
 		if (CoreUtil.isListNotEmpty(dto.getData())) {
 			dto.getData().forEach(i -> validateAndSave(i, dto.getFile()));
-		} else {
-			validateAndSave(dto, dto.getFile());
 		}
 	}
 	
@@ -89,7 +87,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 		var price = CoreUtil.princeToBigDecimal(dto.getPrice());
 		var estoqueOpt = findByProductAndPriceAndQuantity(dto.getProduct(), price, dto.getQuantity());
 		if (!estoqueOpt.isPresent()) {
-			dto.setFile(file);
+			//dto.setFile(file);
 		    save(dto);
 		}
 	}

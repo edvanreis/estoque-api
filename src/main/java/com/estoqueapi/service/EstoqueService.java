@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.estoqueapi.dto.EstoqueDTO;
+import com.estoqueapi.dto.ProdutosDTO;
 import com.estoqueapi.model.Estoque;
 
 /**
@@ -15,7 +16,7 @@ import com.estoqueapi.model.Estoque;
  */
 public interface EstoqueService {
 
-	public void saveList(EstoqueDTO dto);
+	public void saveAll(ProdutosDTO dto);
 
 
 	public EstoqueDTO save(EstoqueDTO dto);
