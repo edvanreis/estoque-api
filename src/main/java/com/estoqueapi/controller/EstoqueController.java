@@ -39,8 +39,6 @@ public class EstoqueController {
 	private final EstoqueService service;
 	
 	private final ProductDeliverySevice productDeliverySevice;
-	
-	private final MessageSource messageSource;
 
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = ""),

@@ -2,7 +2,7 @@
 <p>Projeto Desafio Ler, Armazenar, Calcular dados</b>
 
 <h2>Funcionalidade:</h2>
-<p>Cadastra os produtos na base de dados e calcula a quantidade de produtos por loja</p>
+<p>Lista produtos na base de dados e calcula a quantidade de produtos por loja</p>
 <h2>Detalhes da Implementação</h2>
 <ul>
   <li>
